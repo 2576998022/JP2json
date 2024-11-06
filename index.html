@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- 添加左侧菜单 -->
     <div class="sidebar">
         <div class="menu-item active" data-page="format-tool">
             <span class="menu-text">格式转换工具</span>
@@ -17,19 +16,14 @@
         </div>
     </div>
 
-    <!-- 主内容区域 -->
     <div class="main-content">
-        <!-- 原有的page-container内容 -->
         <div class="page-container" id="format-tool">
-            <!-- 原有的container内容 -->
             <div class="container">
                 <h1>格式转换工具</h1>
-                
                 <div class="input-section">
                     <label for="inputData">输入要处理的数据：</label>
                     <textarea id="inputData" placeholder="请在此输入需要转换的数据..."></textarea>
                 </div>
-
                 <div class="button-group">
                     <button id="toCsv" class="btn btn-primary">转为csv格式</button>
                     <button id="toXls" class="btn btn-primary">转为xls格式</button>
@@ -37,7 +31,6 @@
                     <button id="clearInput" class="btn btn-danger">清空输入框</button>
                     <button id="copyResult" class="btn btn-success">复制数据</button>
                 </div>
-
                 <div class="output-section">
                     <label for="outputData">处理后的结果：</label>
                     <textarea id="outputData" readonly></textarea>
@@ -48,21 +41,20 @@
                     <h2>历史记录</h2>
                     <button id="clearHistory" class="btn btn-danger btn-sm">清空历史</button>
                 </div>
-                <div class="history-list" id="historyList">
-                    <!-- 历史记录将通过JavaScript动态添加 -->
-                </div>
+                <div class="history-list" id="historyList"></div>
             </div>
         </div>
 
-        <!-- 新增数据列表页面 -->
         <div class="page-container hidden" id="data-list">
             <div class="container">
                 <h1>数据列表</h1>
-                <!-- 数据列表的内容将在这里 -->
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="js/main.js"></script>
+
+    <script type="module" src="./utils/toast.js"></script>
+    <script type="module" src="./modules/format-tool/index.js"></script>
+    <script type="module" src="./modules/format-tool/history.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html> 
