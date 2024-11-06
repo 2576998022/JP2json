@@ -237,4 +237,23 @@ function showToast(message) {
             document.body.removeChild(toast);
         }, 300);
     }, 3000);
-} 
+}
+
+// 添加菜单切换功能
+document.addEventListener('DOMContentLoaded', () => {
+    const menuItems = document.querySelectorAll('.menu-item');
+    const pages = document.querySelectorAll('.page-container');
+
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // 移除所有活动状态
+            menuItems.forEach(mi => mi.classList.remove('active'));
+            pages.forEach(page => page.classList.add('hidden'));
+
+            // 添加当前项的活动状态
+            item.classList.add('active');
+            const targetPage = document.getElementById(item.dataset.page);
+            targetPage.classList.remove('hidden');
+        });
+    });
+}); 
