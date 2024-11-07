@@ -8,9 +8,16 @@ export function showToast(message, duration = 3000) {
     // 创建新的 toast
     const toast = document.createElement('div');
     toast.className = 'toast';
-    toast.textContent = message;
+    
+    // 添加图标和消息
+    toast.innerHTML = `
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <span class="toast-message">${message}</span>
+        </div>
+    `;
 
-    // 添加到 iframe 文档中
+    // 添加到文档中
     document.body.appendChild(toast);
 
     // 显示 toast

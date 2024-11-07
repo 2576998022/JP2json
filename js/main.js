@@ -1,5 +1,6 @@
 import { FormatTool } from '../modules/format-tool/index.js';
 import { HistoryManager } from '../modules/format-tool/history.js';
+import { initClickEffect } from '../utils/click-effect.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const contentFrame = document.getElementById('contentFrame');
@@ -16,4 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             contentFrame.src = `pages/${page}.html`;
         });
     });
+
+    // 初始化点击特效
+    initClickEffect();
 }); 

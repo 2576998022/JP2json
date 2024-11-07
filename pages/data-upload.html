@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="iframe-content">
+    <div class="page-container">
+        <div class="container">
+            <h1>上传数据</h1>
+            <div class="upload-section">
+                <label for="inputData">输入要上传的数据：</label>
+                <textarea 
+                    id="inputData" 
+                    class="upload-textarea" 
+                    placeholder="请在此输入需要上传的数据..."
+                >[
+    {
+        "japanese": "こんにちは",
+        "chinese": "你好",
+        "romaji": "konnichiwa",
+        "audio_url": null
+    },
+    {
+        "japanese": "ありがとう",
+        "chinese": "谢谢",
+        "romaji": "arigatou",
+        "audio_url": null
+    }
+]</textarea>
+                
+                <div class="button-group">
+                    <button id="uploadBtn" class="btn btn-primary">提交数据</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../modules/data-upload/index.js"></script>
+    <script type="module">
+        import { initClickEffect } from '../utils/click-effect.js';
+        initClickEffect();
+    </script>
+</body>
+</html> 

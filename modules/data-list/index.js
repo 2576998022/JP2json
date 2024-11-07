@@ -17,47 +17,44 @@ export class DataList {
 
     initElements() {
         this.tableBody = document.getElementById('dataTableBody');
+        this.firstPageBtn = document.getElementById('firstPage');
         this.prevPageBtn = document.getElementById('prevPage');
         this.nextPageBtn = document.getElementById('nextPage');
+        this.lastPageBtn = document.getElementById('lastPage');
         this.currentPageSpan = document.getElementById('currentPage');
+        this.totalPagesSpan = document.getElementById('totalPages');
     }
 
     bindEvents() {
+        this.firstPageBtn.addEventListener('click', () => this.goToPage(1));
         this.prevPageBtn.addEventListener('click', () => this.prevPage());
         this.nextPageBtn.addEventListener('click', () => this.nextPage());
+        this.lastPageBtn.addEventListener('click', () => this.goToLastPage());
     }
 
     // 加载数据的占位方法
     async loadData() {
         try {
-            // 这里添加加载动画
             this.tableBody.innerHTML = '<tr><td colspan="7" class="loading-text">加载中...</td></tr>';
             
-            // TODO: 实际的数据加载将在后续实现
-            // 临时显示一些示例数据
-            this.renderDummyData();
-            
+            const response = await fetch(`http://localhost:3001/api/sentences?page=${this.currentPage}&pageSize=${this.pageSize}`);
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                this.renderData(result.data);
+                this.totalPages = Math.ceil(result.total / this.pageSize);
+                this.updatePagination();
+            } else {
+                showToast('加载数据失败，请稍后重试');
+            }
         } catch (error) {
             console.error('加载数据失败：', error);
             showToast('加载数据失败，请稍后重试');
         }
     }
 
-    // 渲染示例数据（临时方法）
-    renderDummyData() {
-        const dummyData = [
-            {
-                id: 1,
-                japanese: 'こんにちは',
-                chinese: '你好',
-                romaji: 'Konnichiwa',
-                audio_url: '#',
-                created_at: '2024-01-01 12:00:00',
-                updated_at: '2024-01-01 12:00:00'
-            }
-        ];
-
-        this.tableBody.innerHTML = dummyData.map(item => `
+    renderData(data) {
+        this.tableBody.innerHTML = data.map(item => `
             <tr>
                 <td>${item.id}</td>
                 <td>${item.japanese}</td>
@@ -70,18 +67,43 @@ export class DataList {
         `).join('');
     }
 
+    updatePagination() {
+        this.currentPageSpan.textContent = this.currentPage;
+        this.totalPagesSpan.textContent = this.totalPages;
+        
+        // 更新按钮状态
+        this.firstPageBtn.disabled = this.currentPage === 1;
+        this.prevPageBtn.disabled = this.currentPage === 1;
+        this.nextPageBtn.disabled = this.currentPage === this.totalPages;
+        this.lastPageBtn.disabled = this.currentPage === this.totalPages;
+    }
+
+    goToPage(page) {
+        if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+            this.currentPage = page;
+            this.loadData();
+        }
+    }
+
     prevPage() {
         if (this.currentPage > 1) {
             this.currentPage--;
-            this.currentPageSpan.textContent = this.currentPage;
             this.loadData();
         }
     }
 
     nextPage() {
-        this.currentPage++;
-        this.currentPageSpan.textContent = this.currentPage;
-        this.loadData();
+        if (this.currentPage < this.totalPages) {
+            this.currentPage++;
+            this.loadData();
+        }
+    }
+
+    goToLastPage() {
+        if (this.currentPage !== this.totalPages) {
+            this.currentPage = this.totalPages;
+            this.loadData();
+        }
     }
 }
 
