@@ -2,6 +2,10 @@ import { showToast } from '../../utils/toast.js';
 
 export class HistoryManager {
     constructor() {
+        if (window.self === window.top) {
+            console.warn('HistoryManager 应该在 iframe 内运行');
+            return;
+        }
         this.maxHistoryItems = 50;
         this.initElements();
         this.bindEvents();

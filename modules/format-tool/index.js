@@ -4,64 +4,32 @@ import { HistoryManager } from './history.js';
 // 格式转换功能
 export class FormatTool {
     constructor() {
+        // 确保在iframe内部运行
+        if (window.self === window.top) {
+            console.warn('FormatTool 应该在 iframe 内运行');
+            return;
+        }
         this.initElements();
         this.bindEvents();
         this.historyManager = new HistoryManager();
     }
 
     initElements() {
+        // 获取iframe内的元素
         this.inputData = document.getElementById('inputData');
         this.outputData = document.getElementById('outputData');
-        this.toCsvBtn = document.getElementById('toCsv');
-        this.toXlsBtn = document.getElementById('toXls');
         this.toJsonBtn = document.getElementById('toJson');
         this.clearBtn = document.getElementById('clearInput');
         this.copyBtn = document.getElementById('copyResult');
     }
 
     bindEvents() {
-        this.toCsvBtn.addEventListener('click', () => this.convertToCsv());
-        this.toXlsBtn.addEventListener('click', () => this.convertToXls());
         this.toJsonBtn.addEventListener('click', () => this.convertToJson());
         this.clearBtn.addEventListener('click', () => this.clearInput());
         this.copyBtn.addEventListener('click', () => this.copyResult());
     }
 
     // 实现转换方法
-    convertToCsv() {
-        const input = this.inputData.value.trim();
-        if (!input) {
-            showToast('请先输入数据！');
-            return;
-        }
-        // 将输入文本按行分割，并用逗号连接
-        const lines = input.split('\n');
-        const csvLines = lines.map(line => {
-            return line.trim().split(/\s+/).join(',');
-        });
-        const result = csvLines.join('\n');
-        this.outputData.value = result;
-        this.historyManager.addHistory(input, result, 'CSV');
-        showToast('CSV格式转换成功！');
-    }
-
-    convertToXls() {
-        const input = this.inputData.value.trim();
-        if (!input) {
-            showToast('请先输入数据！');
-            return;
-        }
-        // 将输入文本按行分割，并用制表符连接
-        const lines = input.split('\n');
-        const xlsLines = lines.map(line => {
-            return line.trim().split(/\s+/).join('\t');
-        });
-        const result = xlsLines.join('\n');
-        this.outputData.value = result;
-        this.historyManager.addHistory(input, result, 'XLS');
-        showToast('XLS格式转换成功！');
-    }
-
     convertToJson() {
         const input = this.inputData.value.trim();
         if (!input) {
