@@ -43,7 +43,7 @@ ${status.split('\n').map(line => `- ${line.trim()}`).join('\n')}`;
         console.log('✓ 已提交更改');
 
         // 推送到远程仓库
-        await execAsync('git push');
+        await execAsync('git push -u origin main');
         console.log('✓ 已推送到远程仓库');
 
         console.log('\n部署完成! 🎉');
